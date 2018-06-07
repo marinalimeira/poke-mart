@@ -1,4 +1,30 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+
+const ExchangeRates = () => (
+    <Query
+    query={gql`
+    {
+    rates(currency: "USD") {
+    currency
+    rate
+    }
+    }
+    `}
+    >
+    {({ loading, error, data }) => {
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
+        return data.rates.map(({ currency, rate }) => (
+            <div key={currency}>
+            <p>{`${currency}: ${rate}`}</p>
+            </div>
+            ));
+        }}
+        </Query>
+        );
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
